@@ -1,0 +1,56 @@
+//
+// named.conf
+//
+// Provided by Red Hat bind package to configure the ISC BIND named(8) DNS
+// server as a caching only nameserver (as a localhost DNS resolver only).
+//
+// See /usr/share/doc/bind*/sample/ for example named configuration files.
+//
+
+options {
+	listen-on port 53 { any; };
+	listen-on-v6 port 53 { ::1; };
+	directory 	"/var/named";
+	dump-file 	"/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+	allow-query     { localhost; };
+	recursion yes;
+	forwarders { 8.8.8.8; 8.8.4.4; };
+
+	dnssec-enable yes;
+	dnssec-validation yes;
+
+	/* Path to ISC DLV key */
+	bindkeys-file "/etc/named.iscdlv.key";
+
+	managed-keys-directory "/var/named/dynamic";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "noshutdown.cl" IN {
+	type master;
+	file "noshutdown.cl.zone";
+	notify yes;
+	allow-query { any; };
+	allow-update { none; };
+};
+
+zone "1.16.172.in-addr.arpa" IN {
+        type master;
+        file "noshutdown.cl.inver";
+        notify yes;
+        allow-query { any; };
+        allow-update { none; };
+};
+
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+

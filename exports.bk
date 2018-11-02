@@ -1,0 +1,2 @@
+/var/Programadores *(ro,sync)
+/var/Analista 172.16.1.0/24(rw,sync)

@@ -1,0 +1,10 @@
+$TTL 1D
+@	IN SOA	ns1.noshutdown.cl. root.noshutdown.cl. (
+					1	; serial
+					1D	; refresh
+					1H	; retry
+					1W	; expire
+					3H )	; minimum
+	IN	NS	ns1.noshutdown.cl.
+ns1	IN	A	172.16.1.10
+20	IN	PTR	www.noshutdown.cl.
